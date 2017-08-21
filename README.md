@@ -16,11 +16,11 @@ When used interactively it displays the changes it will make and prompts for con
 
 It can be used in pipelines like this:
 
-`ls bruce\*.c | rename 'bruce(.*)\.c' 'bruce$1.c'`
+`ls bruce*.c | rename 'bruce(.*)\.c' 'bruce$1.c'`
 
 WARNING: when used in pipelines it does not prompt for confirmation. If you'd like to see the results of a pipeline rename without actually making the changes use `-test`:
 
-`ls bruce\*.c | rename -test 'bruce(.*)\.c' 'bruce$1.c'`
+`ls bruce*.c | rename -test 'bruce(.*)\.c' 'bruce$1.c'`
 
 You should notice the use of single quotes to prevent variable substitution by PowerShell. See http://www.regular-expressions.info/powershell.html for details. Of course, you can use it without regular expressions too.
 
