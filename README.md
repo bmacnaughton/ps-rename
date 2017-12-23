@@ -2,9 +2,9 @@
 
 Rename files in powershell using regular expressions
 
-Invoking rename.ps1 defines a global function named "renamer" that allows renaming files using regular expressions. It is basically a wrapper to apply the Regex.Replace() function to filenames. It does not move files.
+Invoking `renamer.ps1` defines a global function `renamer` that allows selecting and renaming files using regular expressions. It is basically a wrapper to apply the Regex.Replace() function to filenames. It does not move files.
 
-The name for the function I use is 'renamer' but you can change it to anything you'd like - just edit the source. I invoke the file from Profile.ps1 but that's not required. 
+The default name for the function is `renamer` but you can change it to anything you'd like - just edit the source. I invoke the file from `Profile.ps1` but that's not required. 
 
 The interactive syntax is:
 
