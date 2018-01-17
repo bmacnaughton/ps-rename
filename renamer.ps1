@@ -7,13 +7,13 @@
 	accepts a source regular expression pattern and a destination string, which can include backreferences ($1).
 
 	renamer can be used in pipeline but does not confirm renames. You might want to test the results by specifying the
-	`-test` option.
+	`-test` parameter.
 
 .Link
 	https://docs.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference#grouping_constructs
 
 .Parameter confirm
-	-confirm:$true is the default and, in interactive mode, prompts for confirmation after displaying the renames to be executed.
+	-confirm:$true (default) in interactive mode only, prompts for confirmation after displaying the renames to be executed.
 	-confirm:$false performs the rename without prompting
 
 .Parameter test
