@@ -25,7 +25,7 @@
 
 	bruce.txt => b.txt
 	bruce-macnaughton.txt => b-macnaughton.txt
-	bruce-alan-macnaughton.text => b-alan-macnaughton.text	
+	bruce-alan-macnaughton.text => b-alan-macnaughton.text
 
 .Example
 	renamer '(-alan)*(-macnaughton)' `$2
@@ -38,12 +38,12 @@
 
 .Example
 	ls | renamer `-alan ''
-	
+
 	renames the file bruce-alan-macnaughton.text to bruce-macnaughton.text
 
 .Example
 	ls | renamer -test `-alan ''
-	
+
 	outputs bruce-macnaughton.text but does not rename bruce-alan-macnaughton.text
 
 #>
@@ -76,7 +76,7 @@ function global:renamer {
 		$pos = $pscmdlet.myinvocation.pipelineposition
 		$len = $pscmdlet.myinvocation.pipelinelength
 		$end = $pos -eq $len
-		
+
 		# keep track of changes for interactive mode. especially useful if failure partway through renames
 		$changedCount = 0
 	}
@@ -103,13 +103,13 @@ function global:renamer {
 			}
 		} else {
 			<# interactive mode - we work in the current directory and confirm is the default #>
-			$matches = @(ls . | where {$_.Name -match $pattern})
-			if ($matches.length -gt 0) {
+			$file_matches = @(get-childitem . | where-object {$_.Name -match $pattern})
+			if ($file_matches.length -gt 0) {
 
-				## get longest string  
-				$n = @($matches | sort-object @{Expression={$_.Name.Length}; Ascending=$false})[0].Name.Length + 4  
+				## get longest string
+				$n = @($file_matches | sort-object @{Expression={$_.Name.Length}; Ascending=$false})[0].Name.Length + 4
 
-				$matches | %{ $_.Name.PadRight($n, " ") + "->  " + (makenewname $_) }  
+				$file_matches | ForEach-Object{ $_.Name.PadRight($n, " ") + "->  " + (makenewname $_) }
 
 				$answer = "y"
 				if ($confirm) {
@@ -120,20 +120,20 @@ function global:renamer {
 
 				if ($answer -eq "y") {
 					$error.clear()
-					$matches | %{ rename-item -literalpath $_.fullname (makenewname $_); $changedCount += 1}
+					$file_matches | ForEach-Object{ rename-item -literalpath $_.fullname (makenewname $_); $changedCount += 1}
 
 					if (!$error) {
-						#$changedCount = $matches.length
-					} else {  
-						write-host -foregroundcolor yellow "rename failed on $($matches[$changedCount])"
-					}  
-				} else {  
-					write-host "renames cancelled"  
+						#$changedCount = $file_matches.length
+					} else {
+						write-host -foregroundcolor yellow "rename failed on $($file_matches[$changedCount])"
+					}
+				} else {
+					write-host "renames cancelled"
 				}
 			}
 		}
     }
     end {
-		if ($pscmdlet.ParameterSetName -eq "interactive") {write-host "renamed $changedCount files"}
+		  if ($pscmdlet.ParameterSetName -eq "interactive") {write-host "renamed $changedCount files"}
     }
 }
